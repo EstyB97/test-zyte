@@ -18,14 +18,16 @@ class WAYFpider(CrawlSpider):
     allowed_domains = ['wayfair.co.uk']
     start_urls = ['https://www.wayfair.co.uk/']
     
-    #rules = (
-     #   Rule(LinkExtractor(allow=(furniture), restrict_xpaths=()), 
-      #  callback='parse_item', follow=True),
-    #)
+    rules = (
+        Rule(LinkExtractor(allow=(), restrict_xpaths=('//div[@class="premmerce-filter-ajax-container"]',
+        '//div[@class="premmerce-filter-ajax-container"]',
+        '//article[@class="CategoryCarousel"]')) 
+        callback='parse_item', follow=True),
+    )
 
-    def parse(self, response):
-        for link in response.css('a::attr(href)'):
-            yield response.follow(link.getall(), callback=self.parse_items)
+    #def parse(self, response):
+        #for link in response.css('a::attr(href)'):
+            #yield response.follow(link.getall(), callback=self.parse_items)
 
     def parse_items(self, response):
 
