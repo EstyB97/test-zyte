@@ -21,9 +21,10 @@ class WAYFpider(CrawlSpider):
     rules = (
         Rule(LinkExtractor(allow=(), restrict_xpaths=('//div[@class="premmerce-filter-ajax-container"]',
         '//div[@class="premmerce-filter-ajax-container"]',
-        '//article[@class="CategoryCarousel"]')) 
+        '//article[@class="CategoryCarousel"]')), 
         callback='parse_item', follow=True),
     )
+    
 
     #def parse(self, response):
         #for link in response.css('a::attr(href)'):
