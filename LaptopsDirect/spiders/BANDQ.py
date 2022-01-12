@@ -13,7 +13,9 @@ class BNQSpider(SitemapSpider):
         TT = ItemLoader(item=LaptopsdirectItem(), response=response)
 
         TT.add_xpath ('title','//h1[@data-test-id="hero-info-title"]/text()')
-        TT.add_xpath ('sku','//td[@data-test-id="product-ean-spec"]/text()')
+        TT.add_xpath ('sku','//tbody//th[starts-with(.,"Model name/number")]/following::td[1]/text()') # Model name/number
+        TT.add_xpath ('sku','//tbody//th[starts-with(.,"standard")]/following::td[1]/text()') # Standard
+        TT.add_xpath ('sku','//tbody//th[starts-with(.,"Product code")]/following::td[1]/text()') # Product code 
         TT.add_xpath ('price','//section//div[@data-test-id="product-primary-price"]//span//text()')
         TT.add_xpath ('stock','//input[@name="quantity"]/@value')
 
