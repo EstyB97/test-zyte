@@ -1,7 +1,10 @@
+from datetime import datetime
 from scrapy.spiders import SitemapSpider, Rule
 from scrapy.loader import ItemLoader
 from LaptopsDirect.items import LaptopsdirectItem
 from scrapy.linkextractors import LinkExtractor
+import socket
+
 class ORIONACSpider(SitemapSpider):
     name = 'ORIONAC'
 
@@ -28,5 +31,12 @@ class ORIONACSpider(SitemapSpider):
         BB.add_xpath ('sku','//script[@type="application/ld+json"]', re=r"(mpn\":\")(.*?)(?=\")")
         BB.add_xpath ('price','//span[@itemprop="price"]/text()')
         BB.add_xpath ('stock','//span[@id="_EKM_PRODUCTSTOCK"]//span/text()')
+
+        BB.add_value('url', response.url)
+        BB.add_value('project', self.settings.get('BOT_NAME'))
+        BB.add_value('useragent', self.settings.get('USER_AGENT'))
+        BB.add_value('spider', self.name)
+        BB.add_value('server', socket.gethostname())
+        BB.add_value('date', datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 
         return BB.load_item()
