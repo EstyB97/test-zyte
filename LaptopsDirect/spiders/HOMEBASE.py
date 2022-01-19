@@ -49,12 +49,12 @@ class HOMEBASESpider(SitemapSpider):
         BB.add_xpath ('sku','//h1[@class="productName_title"]/text()', re=r"(?<=AEG\s)(.*)(?=\sBuilt)")
         BB.add_xpath ('sku','//h1[@class="productName_title"]/text()', re=r"(?<=AEG\s)(.*)(?=\s{1,2}[0-9])")
         #Baumatic
+        BB.add_xpath ('sku','//h1[@class="productName_title"]/text()', re=r"(?<=Baumatic\s)(.*)(?=\sBuilt)")
         BB.add_xpath ('sku','//h1[@class="productName_title"]/text()', re=r"(?<=Baumatic\s)(.*)(?=\s{1,2}[0-9])")
+        BB.add_xpath ('sku','//h1[@class="productName_title"]/text()', re=r"(?<=Baumatic\s)(.*)(?=\sTelescopic)")
         BB.add_xpath ('sku','//h1[@class="productName_title"]/text()', re=r"(?<=Baumatic\s)(.*)(?=\sBuilt)")
         #benko
         BB.add_xpath ('sku','//h1[@class="productName_title"]/text()', re=r"(?<=Beko\s)(.*)(?=\s{1,2}[0-9])")
-        BB.add_xpath ('sku','//h1[@class="productName_title"]/text()', re=r"(?<=Baumatic\s)(.*)(?=\sTelescopic)")
-        BB.add_xpath ('sku','//h1[@class="productName_title"]/text()', re=r"(?<=Baumatic\s)(.*)(?=\sBuilt)")
         BB.add_xpath ('sku','//h1[@class="productName_title"]/text()', re=r"(?<=RecycledNet.\s)(.*)(?=\sBuilt)")
         #Bosch
         BB.add_xpath ('sku','//h1[@class="productName_title"]/text()', re=r"(?<=Serie\s[0-9]\s)(.*)(?=\s{1,2}[0-9])")
@@ -129,14 +129,14 @@ class HOMEBASESpider(SitemapSpider):
         #Samsung 
         BB.add_xpath ('sku','//h1[@class="productName_title"]/text()', re=r"(?<=[0-9]\s)(.*)(?=\sAmerican)")
         #Smeg 
-        BB.add_xpath ('sku','//h1[@class="productName_title"]/text()', re=r"(?<=Smeg\s)(.*)(?=\{1,2}[0-9])")
+        BB.add_xpath ('sku','//h1[@class="productName_title"]/text()', re=r"(?<=Smeg\s)(.*)(?=\s{1,2}[0-9])")
 
 
         #Dishwasher
         #AEG
-        BB.add_xpath ('sku','//h1[@class="productName_title"]/text()', re=r"(?<=AEG\s)(.*)(?=\Fully)") 
+        BB.add_xpath ('sku','//h1[@class="productName_title"]/text()', re=r"(?<=AEG\s)(.*)(?=\sFully)") 
         #Beko
-        BB.add_xpath ('sku','//h1[@class="productName_title"]/text()', re=r"(?<=Beko\s)(.*)(?=\Fully)") 
+        BB.add_xpath ('sku','//h1[@class="productName_title"]/text()', re=r"(?<=Beko\s)(.*)(?=\sFully)") 
         #Bosch 
         BB.add_xpath ('sku','//h1[@class="productName_title"]/text()', re=r"(?<=Serie\s[0-9]\s)(.*)(?=\sFully)")
         #Candy 
@@ -164,7 +164,7 @@ class HOMEBASESpider(SitemapSpider):
         #Bosch 
         BB.add_xpath ('sku','//h1[@class="productName_title"]/text()', re=r"(?<=Serie\s[0-9]\s)(.*)(?=\sIntegrated)")
         #Candy 
-        BB.add_xpath ('sku','//h1[@class="productName_title"]/text()', re=r"(?<=Candy\s)(.*)(?=\sWifi)")
+        BB.add_xpath ('sku','//h1[@class="productName_title"]/text()', re=r"(?<=Candy\s)(.*)(?=\sWifi)") #*
         BB.add_xpath ('sku','//h1[@class="productName_title"]/text()', re=r"(?<=Rapido\s)(.*)(?=\sWifi)")
         BB.add_xpath ('sku','//h1[@class="productName_title"]/text()', re=r"(?<=pro\s)(.*)(?=\sWifi)")
         BB.add_xpath ('sku','//h1[@class="productName_title"]/text()', re=r"(?<=Ultra\s)(.*)(?=\s{1,2}[0-9]kg)")
