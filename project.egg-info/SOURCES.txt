@@ -8,9 +8,14 @@ LaptopsDirect/pipelines.py
 LaptopsDirect/policy.py
 LaptopsDirect/settings.py
 LaptopsDirect/utils.py
+LaptopsDirect/spiders/ACW.py
 LaptopsDirect/spiders/AO.py
 LaptopsDirect/spiders/AOCrawler.py
 LaptopsDirect/spiders/AOLegacy.py
+LaptopsDirect/spiders/APLIC.py
+LaptopsDirect/spiders/BANDQ.py
+LaptopsDirect/spiders/BQS.py
+LaptopsDirect/spiders/BQW.py
 LaptopsDirect/spiders/BetterBathrooms.py
 LaptopsDirect/spiders/Box.py
 LaptopsDirect/spiders/CCL.py
@@ -21,6 +26,7 @@ LaptopsDirect/spiders/DronesDirect.py
 LaptopsDirect/spiders/Ebuyer.py
 LaptopsDirect/spiders/Evaris.py
 LaptopsDirect/spiders/Footlocker.py
+LaptopsDirect/spiders/HOMEBASE.py
 LaptopsDirect/spiders/Insight.py
 LaptopsDirect/spiders/JohnLewis.py
 LaptopsDirect/spiders/JohnLewisCrawler.py
@@ -31,7 +37,9 @@ LaptopsDirect/spiders/MarksElectrical.py
 LaptopsDirect/spiders/Mazuma.py
 LaptopsDirect/spiders/MusicMagpie.py
 LaptopsDirect/spiders/Novatech.py
+LaptopsDirect/spiders/ORIONAC.py
 LaptopsDirect/spiders/OcUK.py
+LaptopsDirect/spiders/RD.py
 LaptopsDirect/spiders/RicherSounds.py
 LaptopsDirect/spiders/Safe.py
 LaptopsDirect/spiders/Scan.py
@@ -40,8 +48,11 @@ LaptopsDirect/spiders/SellMyMobile.py
 LaptopsDirect/spiders/SellMyMobileCrawler.py
 LaptopsDirect/spiders/ServersPlus.py
 LaptopsDirect/spiders/ShipItAppliances.py
+LaptopsDirect/spiders/THERA.py
+LaptopsDirect/spiders/TPARENT.py
 LaptopsDirect/spiders/Technoworld.py
 LaptopsDirect/spiders/Transparent.py
+LaptopsDirect/spiders/WAYF.py
 LaptopsDirect/spiders/Wayfair.py
 LaptopsDirect/spiders/Wayfair_Solo.py
 LaptopsDirect/spiders/Wex.py

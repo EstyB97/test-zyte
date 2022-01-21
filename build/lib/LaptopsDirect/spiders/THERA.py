@@ -23,7 +23,7 @@ class THERASpider(SitemapSpider):
     sitemap_urls = ['https://www.therange.co.uk/sitemap/sitemap-1.xml', 'https://www.therange.co.uk/sitemap/sitemap-2.xml']
 
     def parse(self, response):
-        SS = ItemLoader(item=LaptopsdirectItem(), response=response, headers=response)
+        SS = ItemLoader(item=LaptopsdirectItem(), response=response, headers=headers)
 
         SS.add_xpath ('title','//h1[@id="product-dyn-title"]/text()')
         SS.add_xpath ('sku','//span[@id="product-dyn-code"]/text()')
