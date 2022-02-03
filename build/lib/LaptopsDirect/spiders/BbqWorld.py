@@ -2,8 +2,8 @@ from scrapy.spiders import CrawlSpider
 from scrapy.loader import ItemLoader
 from LaptopsDirect.items import LaptopsdirectItem
 
-class BQWSpider(CrawlSpider):
-    name = 'BQW'
+class BbqWorldSpider(CrawlSpider):
+    name = 'BbqWorld'
 
     allowed_domains = ['bbqworld.co.uk']
     start_urls = ['https://www.bbqworld.co.uk/weber-barbecues/weberq/weber-q1200-black-with-stand.asp']

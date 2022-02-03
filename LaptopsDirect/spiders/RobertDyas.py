@@ -2,8 +2,8 @@ from scrapy.spiders import SitemapSpider
 from scrapy.loader import ItemLoader
 from LaptopsDirect.items import LaptopsdirectItem
 
-class RDSpider(SitemapSpider):
-    name = 'RD'
+class RobertDyasSpider(SitemapSpider):
+    name = 'RobertDyas'
 
     allowed_domains = ['robertdyas.co.uk']
     sitemap_urls = ['https://www.robertdyas.co.uk/pub/media/sitemap/sitemap_001.xml', 'https://www.robertdyas.co.uk/pub/media/sitemap/sitemap_002.xml', 'https://www.robertdyas.co.uk/pub/media/sitemap/sitemap_003.xml', 'https://www.robertdyas.co.uk/pub/media/sitemap/sitemap_004.xml', 'https://www.robertdyas.co.uk/pub/media/sitemap/sitemap_005.xml', 'https://www.robertdyas.co.uk/media/bloom_reach_thematic_sitemap/sitemap_robertdyas_uk_main_en_gb_1.xml']

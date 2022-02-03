@@ -2,8 +2,8 @@ from scrapy.spiders import SitemapSpider
 from scrapy.loader import ItemLoader
 from LaptopsDirect.items import LaptopsdirectItem
 
-class ACWSpider(SitemapSpider):
-    name = 'ACW'
+class AirConditioningWorldSpider(SitemapSpider):
+    name = 'AirConditioningWorld'
 
     allowed_domains = ['airconditioningworld.co.uk']
     sitemap_urls = ['https://www.airconditioningworld.co.uk/sitemap.xml']

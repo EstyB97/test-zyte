@@ -2,8 +2,8 @@ from scrapy.spiders import SitemapSpider
 from scrapy.loader import ItemLoader
 from LaptopsDirect.items import LaptopsdirectItem
 
-class BQSSpider(SitemapSpider):
-    name = "BQS"
+class BBQShopSpider(SitemapSpider):
+    name = "BBQShop"
 
 
     allowed_domains = ['thebbqshop.co.uk']

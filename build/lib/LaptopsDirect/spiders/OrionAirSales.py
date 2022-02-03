@@ -5,8 +5,8 @@ from LaptopsDirect.items import LaptopsdirectItem
 from scrapy.linkextractors import LinkExtractor
 import socket
 
-class ORIONACSpider(SitemapSpider):
-    name = 'ORIONAC'
+class OrionAirSalesSpider(SitemapSpider):
+    name = 'OrionAirSales'
 
     allowed_domains = ['orionairsales.co.uk']
     sitemap_urls = ['http://www.orionairsales.co.uk/sitemap.xml']

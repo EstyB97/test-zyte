@@ -2,8 +2,8 @@ from scrapy.spiders import SitemapSpider
 from scrapy.loader import ItemLoader
 from LaptopsDirect.items import LaptopsdirectItem
 
-class BNQSpider(SitemapSpider):
-    name = 'BANDQ'
+class BnQSpider(SitemapSpider):
+    name = 'BnQ'
 
     
     allowed_domains = ['diy.com']

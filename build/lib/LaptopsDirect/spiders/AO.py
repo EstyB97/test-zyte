@@ -28,6 +28,7 @@ class AoSpider(SitemapSpider):
         l = ItemLoader(item=LaptopsdirectItem(), response=response)
 
         #Scrape Fields
+        #l.add_xpath('title', '//h1[@id="pageTitle"]/text()')
         l.add_xpath('title', '//*[@id="Head"]/title/text()')
         l.add_xpath('sku', '//span[starts-with(.,"Belling")]//following::div[@data-tag-name="sku"]/following::span[1]/text()')
         l.add_xpath('sku', '//span[starts-with(.,"Stoves")]//following::div[@data-tag-name="sku"]/following::span[1]/text()')
@@ -49,6 +50,8 @@ class AoSpider(SitemapSpider):
         l.add_xpath('stock', '//span[@itemprop="availability"]/following::span[1]/text()')
         l.add_xpath('stock', '//span[@itemprop="availability"]/@href')
         l.add_xpath('stock', '//div[@class="back-in-stock"]/h3/text()')
+        l.add_xpath('stock', '//span[@class="text-title"]/text()')
+        
 
 
         # Administration Fields

@@ -28,6 +28,7 @@ class boxspider(SitemapSpider):
         l = ItemLoader(item=LaptopsdirectItem(), response=response)
 
         #Scrape Fields
+        #l.add_xpath('title', '//h2[@class="p-title-desc"]/text()')
         l.add_xpath('title', '/html/head/title/text()')
         l.add_xpath('sku', '//h1[@class="p-title-code"]/text()')
         l.add_xpath('sku', '//h2/span[@class="p-title-code"]/text()')

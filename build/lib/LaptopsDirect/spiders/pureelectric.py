@@ -9,7 +9,7 @@ from LaptopsDirect.items import LaptopsdirectItem
 from scrapy.loader.processors import TakeFirst
 
 class PureelectricSpider(SitemapSpider):
-    name = 'purelectric'
+    name = 'pureelectric'
     custom_settings = { 
         'DOWNLOADER_MIDDLEWARES' : {
             'LaptopsDirect.middlewares.CustomProxyMiddleware': 350,
