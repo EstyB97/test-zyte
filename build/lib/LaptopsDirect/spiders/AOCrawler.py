@@ -12,20 +12,23 @@ import re
 
 class AOCrawlSpider(CrawlSpider):
     name = 'AOCrawler'
-    #custom_settings = { 
+    
+    allowed_domains = ['ao.com']
+    start_urls = ['https://ao.com/l/tvs/1/107-108/']
+    DOMAIN_DEPTHS = {'ao.com': 1}
+    
+    custom_settings = { 
+        'DEPTH_LIMIT': 2
     #    'DOWNLOADER_MIDDLEWARES' : {
     #        'LaptopsDirect.middlewares.CustomProxyMiddleware': 350,
     #        'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 400,
     #    }
-    #}
-    allowed_domains = ['ao.com']
-    start_urls = ['https://ao.com']
+    }
 
+    
     rules = (
-        Rule(LinkExtractor(allow=(), deny=(r'^https:\/\/www\.ao\.com\/p\/reviews\/[^\n]+',
-        r'^https:\/\/ao\.com\/p\/reviews\/[^\n]+'),restrict_xpaths=('//nav[@id="main-navigation"]',
-        '//div[@id="categoryPage"]',
-        '//div[@id="container"]'
+        Rule(LinkExtractor(allow=(), deny=(), restrict_xpaths=('//section//ul//li//a'
+        
         )),
         callback='parse_item', follow=True),
         )

@@ -29,7 +29,7 @@ class TCSpider(SitemapSpider):
         'CLOSESPIDER_TIMEOUT' : '864000'
    }
     allowed_domains = ['currys.co.uk']
-    sitemap_urls = ['https://www.currys.co.uk/robots.txt']
+    sitemap_urls = ['https://www.currys.co.uk/sitemap_index.xml']
     #handle_httpstatus_list = [301, 302, 200]
     
     def parse(self, response):

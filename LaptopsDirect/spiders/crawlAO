@@ -1,0 +1,20 @@
+from async_generator import yield_
+from scrapy.spiders import CrawlSpider, Rule
+ 
+ 
+class crawlAOSpider(CrawlSpider):
+    name = 'crawlAO'
+    allowed_domains = ['ao.com']
+    start_urls = ['https://ao.com/l/tvs/1/107-108/']
+    base_url = 'https://ao.com/product'
+ 
+    custom_settings = {
+        'DEPTH_LIMIT': 1
+    }
+ 
+    def parse(self, response):
+        for next_page in response.xpath('//a[@aria-label="Next Page"]//@href'):
+            yield response.follow(next_page, self.parse)
+ 
+        for quote in response.xpath('//ul[@class="flex flex-wrap -mb-2"]//a//@href'):
+            yield {'quote': quote.extract() }
