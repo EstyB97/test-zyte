@@ -21,7 +21,7 @@ class SimplyelectricalsSpider(SitemapSpider):
         l.add_xpath('title', '/html/head/title/text()')
         l.add_xpath('sku', '//div[@class="sku"]/text()')
         l.add_xpath('price', '//meta[@itemprop="price"]/@content')   
-        l.add_xpath('stock', '//*[@id="buy-now-tab-link"]/text()')
+        l.add_xpath('stock', '//*[@id="buy-now-tab-link"]')
                     
         # Administration Fields
         l.add_value('url', response.url)

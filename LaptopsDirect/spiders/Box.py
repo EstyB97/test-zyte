@@ -37,7 +37,7 @@ class boxspider(SitemapSpider):
         l.add_xpath('description', '//*[@id="p-middle"]/div[2]/ul')
         l.add_xpath('stock', '//p[@class="p-stock"]/text()')
         #OOS
-        l.add_xpath('Stock', '//div[@title="Request Stock Alert"]/text()')
+        l.add_xpath('stock', '//div[@title="Request Stock Alert"]/text()')
 
         # Administration Fields
         l.add_value('url', response.url)

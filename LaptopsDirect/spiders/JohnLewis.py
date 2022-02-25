@@ -20,14 +20,14 @@ class JohnlewisSpider(SitemapSpider):
       'CLOSESPIDER_ERRORCOUNT': '500',
       'CONCURRENT_REQUESTS': '24',
       'DOWNLOADER_MIDDLEWARES' : {
-            #'LaptopsDirect.middlewares.CustomProxyMiddleware': 350,
-            #'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 400,
+            'LaptopsDirect.middlewares.CustomProxyMiddleware': 350,
+            'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 400,
         },
-      'USER_AGENT' : 'AdsBot-Google'
+      #'USER_AGENT' : 'AdsBot-Google'
    }
     allowed_domains = ['johnlewis.com']
-    sitemap_urls = ['https://www.johnlewis.com/product-1.xml', 'https://www.johnlewis.com/product-2.xml', 'https://www.johnlewis.com/product-3.xml']
-    #sitemap_urls = ['https://www.johnlewis.com/siteindex.xml']
+    #sitemap_urls = ['https://www.johnlewis.com/product-1.xml', 'https://www.johnlewis.com/product-2.xml', 'https://www.johnlewis.com/product-3.xml']
+    sitemap_urls = ['https://www.johnlewis.com/robots.txt']
     sitemap_follow = ["^https://www.johnlewis.com/products.*$"]
 
     def parse(self, response,meta={"proxy":"41.65.252.101:1981"}):
@@ -45,19 +45,14 @@ class JohnlewisSpider(SitemapSpider):
         l.add_value('sku', response.url.split('-')[1])
         l.add_xpath('price', '//div[@class="standard-product-column-right"]//p[@class="price price--large"]/text()')
         l.add_xpath('price', '//div[@data-cy="product-price-title"]/span/text()')
-        l.add_xpath('price', '//span[@data-test="product-price"]/span//text()')
         l.add_xpath('stock', '//*[@id="quantity"]/@value')
         l.add_xpath('stock', '//div[@data-cy="stock"]/text()')
         l.add_xpath('stock', '//section[@data-cy="stock-availability"][1]/h3/text()')
         l.add_xpath('stock', '//button[@data-test="add to basket"]/text()')
         #Handling for OOS John Lewis items using the notify me email box that appears on OOS
-        l.add_xpath('stock', '//h2[@class="email-me-stock__header"]/text()', re=r"(.+)")
-        l.add_xpath('stock', '//section[@data-cy="email-me"]/h2/text()', re=r"(.+)")
-        l.add_xpath('stock', '//div[@class="oos-carousel__header"]/text()', re=r"(.+)")
-        l.add_xpath('stock', '//h2[@data-test="message-title"]//text()', re=r"(.+)")
-        l.add_value('stock', 'out of stock online')
+        l.add_xpath('stock', '//section[@data-cy="email-me"]/h2/text()')
 
-        # Administration Field
+        # Administration Fields
         l.add_value('url', response.url)
         l.add_value('project', self.settings.get('BOT_NAME'))
         l.add_value('useragent', self.settings.get('USER_AGENT'))

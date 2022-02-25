@@ -15,8 +15,8 @@ class EbuyerSpider(SitemapSpider):
         'DOWNLOADER_MIDDLEWARES' : {
             'LaptopsDirect.middlewares.CustomProxyMiddleware': 350,
             'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 400,
-            'LaptopsDirect.middlewares.RotatingProxyMiddleware': 610,
-            'LaptopsDirect.middlewares.BanDetectionMiddleware': 620,
+            #'LaptopsDirect.middlewares.RotatingProxyMiddleware': 610,
+            #'LaptopsDirect.middlewares.BanDetectionMiddleware': 620,
         },
         'CLOSESPIDER_TIMEOUT' : '864000'
     }
@@ -29,20 +29,15 @@ class EbuyerSpider(SitemapSpider):
 
         #Scrape Fields
         l.add_xpath('title', '/html/head/title/text()')
-        l.add_xpath('product_title', '//*[@id="main-content"]/div/div[2]/div[1]/h1/text()')
         l.add_xpath('sku', '//*[@id="main-content"]/div/div/div[1]/div[1]/span[2]/text()')
-        l.add_xpath('sku', '//meta[@name="twitter:label2"]/@content') #uses Twitter data 
         #l.add_xpath('price', '//div[@class="purchase-info__price"]/div[@class="ex-vat"]/p/text()')
-        l.add_xpath('price', '//meta[@name="twitter:data1"]/@content') #captures the same price as above, but returns a value when the stock level is 0  
+        l.add_xpath('price', '//meta[@name="twitter:data1"]/@content') #captures the same price as above, but returns a value when the stock level is 0
+        l.add_xpath('product_title', '//*[@id="main-content"]/div/div[2]/div[1]/h1/text()')
         #l.add_xpath('image_srcx', '//div[@class="image-gallery__hero"]/a/img/@src')
         #l.add_xpath('description', '//div[@class="product-description product-description--collapsible"]')
-        l.add_xpath('stock', '//div[@class="purchase-info__cta"]/form/div/input/@Value')
-        l.add_xpath('stock', '//span[@class="unique-selling-points__stock-bold"]/text()')
+        l.add_xpath('stock', '//div[@class="purchase-info__cta"]/form/div/input/@min')
         l.add_xpath('stock', '//button[@data-pre-text="Notify me"]/text()') #this updates to 0 stock level on OOS items
         l.add_xpath('stock','//div[@class="purchase-info"]/div/h2/text()') #this updates to 0 stock level on call for pricing items
-        l.add_xpath('stock','//div[@class="purchase-info"]//h4/text()') # Sorry, this product is currently out of stock
-        l.add_xpath('stock','//div[@class="pre-order-coming-soon"]/img/@alt') # Pre-orders
-        l.add_xpath('stock','//input[@data-event-category="Add to Basket"]/@value') # Pre-orders
 
         #Monitored Attribute on this scrape?
         #l.add_xpath('slotsqty', '//*[@id="technical-specification"]/table/tbody/tr/td[starts-with(.,"Slots Qty")]/following::td[1]/text()')
