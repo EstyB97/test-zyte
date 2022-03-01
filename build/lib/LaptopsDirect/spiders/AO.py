@@ -14,21 +14,20 @@ from scrapy.linkextractors import LinkExtractor
 
 class AoSpider(SitemapSpider):
     name = 'AO'
-    custom_settings = { 
-        'DOWNLOADER_MIDDLEWARES' : {
-            'LaptopsDirect.middlewares.CustomProxyMiddleware': 350,
-            'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 400,
-        }
-    }
+    #custom_settings = { 
+        #'DOWNLOADER_MIDDLEWARES' : {
+        #    'LaptopsDirect.middlewares.CustomProxyMiddleware': 350,
+        #    'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 400,
+        #}
+   # }
     rotate_user_agent = True
     allowed_domains = ['ao.com']
-    sitemap_urls = ['https://ao.com/sitemaps/product/Sound-&-Vision-107.xml']
-    other_urls = ['https://ao.com/product/qe55q60aa-samsung-q60a-tv-black-83154-108.aspx']
+    sitemap_urls = ['https://ao.com/sitemaps/product/toc.xml', 'https://ao.com/sitemaps/product/Dishwashers-21.xml', 'https://ao.com/sitemaps/product/Computing-250.xml']
+
     def parse(self, response):
         l = ItemLoader(item=LaptopsdirectItem(), response=response)
 
         #Scrape Fields
-        #l.add_xpath('title', '//h1[@id="pageTitle"]/text()')
         l.add_xpath('title', '//*[@id="Head"]/title/text()')
         l.add_xpath('sku', '//span[starts-with(.,"Belling")]//following::div[@data-tag-name="sku"]/following::span[1]/text()')
         l.add_xpath('sku', '//span[starts-with(.,"Stoves")]//following::div[@data-tag-name="sku"]/following::span[1]/text()')
@@ -50,8 +49,6 @@ class AoSpider(SitemapSpider):
         l.add_xpath('stock', '//span[@itemprop="availability"]/following::span[1]/text()')
         l.add_xpath('stock', '//span[@itemprop="availability"]/@href')
         l.add_xpath('stock', '//div[@class="back-in-stock"]/h3/text()')
-        l.add_xpath('stock', '//span[@class="text-title"]/text()')
-        
 
 
         # Administration Fields

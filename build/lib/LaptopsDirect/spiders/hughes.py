@@ -21,7 +21,6 @@ class HughesSpider(SitemapSpider):
         l.add_xpath('title', '//*[@id="Head"]/title/text()')
         l.add_xpath('sku', '//div[@class="product--tab-box"]/@data-product')
         l.add_xpath('price', '//div[@class="product--tab-box"]/@data-value')
-        l.add_xpath('price', '//span[@class="price--content content--default"]/text()')
         l.add_xpath('product_title', '//h2[@itemprop="name"]/text()')
         l.add_xpath('stock', '//div[@class="buybox--quantity block"]//div[@class="js--fancy-select-text"]/text()')
         l.add_xpath('stock', '//button[@class="gtm-product-buy-button buybox--button block btn is--primary is--center "]/text()')

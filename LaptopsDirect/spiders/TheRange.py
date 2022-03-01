@@ -1,10 +1,11 @@
 from scrapy.spiders import SitemapSpider
 from scrapy.loader import ItemLoader
 from LaptopsDirect.items import LaptopsdirectItem
+import socket
+from datetime import datetime
 
-
-class THERASpider(SitemapSpider):
-    name = "THERA"
+class TheRangeSpider(SitemapSpider):
+    name = "TheRange"
     headers = {
     'Connection': 'keep-alive',
     'Cache-Control': 'max-age=0',
@@ -23,14 +24,21 @@ class THERASpider(SitemapSpider):
     sitemap_urls = ['https://www.therange.co.uk/sitemap/sitemap-1.xml', 'https://www.therange.co.uk/sitemap/sitemap-2.xml']
 
     def parse(self, response):
-        SS = ItemLoader(item=LaptopsdirectItem(), response=response, headers=response)
+        BB = ItemLoader(item=LaptopsdirectItem(), response=response, headers=headers)
 
-        SS.add_xpath ('title','//h1[@id="product-dyn-title"]/text()')
-        SS.add_xpath ('sku','//span[@id="product-dyn-code"]/text()')
-        SS.add_xpath ('price','//div[@id="min_price"]/text()')
-        SS.add_xpath ('stock', '//span[@id="geo_prod_delivery_status"]/text()')
+        BB.add_xpath ('title','//h1[@id="product-dyn-title"]/text()')
+        BB.add_xpath ('sku','//span[@id="product-dyn-code"]/text()')
+        BB.add_xpath ('price','//div[@id="min_price"]/text()')
+        BB.add_xpath ('stock', '//span[@id="geo_prod_delivery_status"]/text()')
+
+        # Administration Fields 
+        BB.add_value('url', response.url)
+        BB.add_value('project', self.settings.get('BOT_NAME'))
+        BB.add_value('useragent', self.settings.get('USER_AGENT'))
+        BB.add_value('spider', self.name)
+        BB.add_value('server', socket.gethostname())
+        BB.add_value('date', datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 
 
 
-
-        return SS.load_item()
+        return BB.load_item()

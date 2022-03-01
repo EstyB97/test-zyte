@@ -1,21 +1,15 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 import urlparse
-#import urllib.parse
 import socket
 import scrapy
 import re
 from scrapy import selector
-from scrapy.spiders import SitemapSpider, Rule
+from scrapy.spiders import SitemapSpider
 from scrapy.loader import ItemLoader
 from LaptopsDirect.items import LaptopsdirectItem
 import logging
 from scrapy.loader.processors import TakeFirst
-from requests import get
-from scrapy.linkextractors import LinkExtractor
-
-ip = get('https://api.ipify.org').text
-get('https://www.duckdns.org/update?domains=cabbage51&token=96e0eeee-e2f3-4788-a861-dfeac8b55126&ip='.format(ip))
 
 #Custom downloader middleware uses a proxy to disguise where the request is coming from. Proxy has to be UK based or will only work for a couple of runs. Limited number of runs per proxy per day as there is some sort of
 #counting in place on the number of page requests per IP. If a custom user agent is used they will block it automatically. Conditional based fields are listed below and Regex on the import into our data
@@ -30,40 +24,14 @@ class CurrysSpider(SitemapSpider):
         },
         'CLOSESPIDER_TIMEOUT' : '864000'
    }
-   
     allowed_domains = ['currys.co.uk']
     sitemap_urls = ['https://www.currys.co.uk/robots.txt']
-    other_urls = ['https://www.currys.co.uk/products/dyson-v7-animal-extra-cordless-vacuum-cleaner-purple-10215370.html']
-    #handle_httpstatus_list = [301, 302, 200, 500]
-
-    def start_requests(self):
-        requests = list(super(CurrysSpider, self).start_requests())
-        requests += [scrapy.Request(x, self.parse_other) for x in self.other_urls]
-        return requests
+    #handle_httpstatus_list = [301, 302, 200]
     
-    def parse_other(self, response):
+    def parse(self, response):
 
         l = ItemLoader(item=LaptopsdirectItem(), response=response)
         #l.default_output_processor = TakeFirst()   -- Breaks the JSON on integration
-        headers =  {
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-            'Accept-Encoding': 'gzip, deflate, br',
-            'Accept-Language': 'en-US,en;q=0.9,en-GB;q=0.8',
-            'cache-control': 'no-cache',
-            'cookie':'ACS={}; logglytrackingsession=b409b513-619b-4d8c-9d4b-ab67a0669212; _gcl_au=1.1.1263694566.1642768943; _cs_c=1; OptanonAlertBoxClosed=2022-01-25T09:13:25.701Z; __gads=ID=9ffaf5336415d028:T=1642768945:S=ALNI_MYnxtWfF9RqEPHVbjlvTi02fyrs4Q; _rl_rl=0; _rlu=c5d61806-f880-4b91-9ff0-7e7d00c4ee7a; _rlg=rl; _rlgs=1eH2vTbW; _mibhv=anon-1643102006928-6506312688_8082; smc_uid=1643102007193270; smc_tag=eyJpZCI6MTkyNCwibmFtZSI6ImN1cnJ5cy5jby51ayJ9; criteo=43513664420699145653566787975610202946; smc_refresh=17659; smc_not=default; _fbp=fb.2.1643102008894.2099600668; smc_v4_72135=%7B%22timer%22%3A0%2C%22start%22%3A1643102128195%2C%22last%22%3A1643102128195%2C%22disp%22%3A1643102133777%2C%22close%22%3Anull%2C%22reset%22%3Anull%2C%22engaged%22%3Anull%2C%22active%22%3A1643102128195%2C%22cancel%22%3Anull%2C%22fm%22%3Anull%7D; smc_v4_66311=%7B%22timer%22%3A0%2C%22start%22%3A1643102136086%2C%22last%22%3A1643102136086%2C%22disp%22%3A1643102606405%2C%22close%22%3Anull%2C%22reset%22%3Anull%2C%22engaged%22%3Anull%2C%22active%22%3A1643102142782%2C%22cancel%22%3Anull%2C%22fm%22%3Anull%7D; rr_session_id=7789eb1717886905e61aa3e962b91b33; rr_user_id=; smc_v4_73429=%7B%22timer%22%3A0%2C%22start%22%3A1643818526895%2C%22last%22%3A1643818526895%2C%22disp%22%3Anull%2C%22close%22%3Anull%2C%22reset%22%3Anull%2C%22engaged%22%3Anull%2C%22active%22%3A1643818532401%2C%22cancel%22%3Anull%2C%22fm%22%3Anull%7D; rr_rcs=eF5j4cotK8lM4TO0tNQ11DVkKU32ME5LMTG3MDTSNTQ0MtA1STZP0U1MMkzTtTQ3TbNMM7IwNTFJAwCAXQ3i; al_consent_cookie=C0008%2CC0001%2CC0002%2CC0003%2CC0004; OptanonConsent=isGpcEnabled=0&datestamp=Wed+Feb+02+2022+16%3A22%3A32+GMT%2B0000+(Greenwich+Mean+Time)&version=6.20.0&isIABGlobal=false&hosts=&consentId=c4fc8e6e-76f1-4afa-aee3-f34416a1cb69&interactionCount=2&landingPath=NotLandingPage&groups=C0008%3A1%2CC0001%3A1%2CC0002%3A1%2CC0003%3A1%2CC0004%3A1&AwaitingReconsent=false&geolocation=%3B; smc_v4_73736=%7B%22timer%22%3A0%2C%22start%22%3A1643813689729%2C%22last%22%3A1643813689729%2C%22disp%22%3A1643818736246%2C%22close%22%3Anull%2C%22reset%22%3Anull%2C%22engaged%22%3Anull%2C%22active%22%3A1643818987387%2C%22cancel%22%3Anull%2C%22fm%22%3Anull%7D; dwanonymous_c1575c7fdffeee6c1c87c9bab9ccac08=bdnQRKJddgakbH2tNokdExQGHM; dwOptanonConsentCookie=false; __cq_dnt=1; dw_dnt=1; AMCVS_0DC638B35278395A0A490D4C%40AdobeOrg=1; _gid=GA1.3.1268946098.1644333255; REVLIFTER={"w":"af9e5e61-c8ab-48e0-b217-e9524b447220","u":"7185c47f-ef4d-4a9e-afb4-015fb7dac41c","s":"e994c7f1-fa32-4dc7-91f5-d43606d142b8","se":1644419655}; _rlsnk=c5d6_kze9kc6k; at_check=true; s_cc=true; flixgvid=flixed22536c000000.05553997; smc_session_id=zF5QNEcw8tBt9FVhj36Ud4frIe3pnjYD; smc_view_item=JTdCJTIyaW1nJTIyJTNBJTIyaHR0cHMlM0ElMkYlMkZjZG4ubWVkaWEuYW1wbGllbmNlLm5ldCUyRmklMkZjdXJyeXNwcm9kJTJGMTAxNDg5NzQlM0YlMjRsLWxhcmdlJTI0JTI2Zm10JTNEYXV0byUyMiUyQyUyMnRpdGxlJTIyJTNBJTIyJTVDbkhPVFBPSU5UJTIwQ2xhc3MlMjA2JTIwU0k2JTIwODY0JTIwU0glMjBJWCUyMEVsZWN0cmljJTIwT3ZlbiUyMFN0YWlubGVzcyUyMFN0ZWVsJTVDbiUyMiU3RA%3D%3D; smc_sesn=3; inpsession_2162_en=71F4CCE6-F387-602C-9EF0-55FC11116995; inptime_2162_en=0; QSI_HistorySession=https%3A%2F%2Fwww.currys.co.uk%2Fproducts%2Fhotpoint-class-6-si6-864-sh-ix-electric-oven-stainless-steel-10148974.html~1644333258509; sid=72EDMvTnw8lwc8HC_oeNlbcn7xNF1CA2kPI; dwsid=G1Ad3kc3Wp8NvSWi8zkZx0MW8f_2BLlg7TwGn_cUkoiVoms2mU2EZ7pxSpsu_z41xlQDvAdjlduEXl2FIRV-rw==; AMCV_0DC638B35278395A0A490D4C%40AdobeOrg=-2121179033%7CMCIDTS%7C19032%7CMCMID%7C43513664420699145653566787975610202946%7CMCAAMLH-1645005266%7C6%7CMCAAMB-1645005266%7CRKhpRz8krg2tLO6pguXWp5olkAcUniQYPHaMWWgdJ3xzPWQmdj0y%7CMCOPTOUT-1644407666s%7CNONE%7CMCAID%7CNONE%7CvVersion%7C5.3.0%7CMCCIDH%7C10960313; rr_rcs=eF5jYSlN9jBOSzExtzA00jU0NDLQNUk2T9FNTDJM07U0N02zTDOyMDUxSePKLSvJTOEztLTUNdQ1BAB_wQ3i; _clck=1x53zof|1|eyu|0; _cs_mk_aa=0.9794197203670538_1644403311495; OptanonConsent=isGpcEnabled=0&datestamp=Wed+Feb+09+2022+10%3A41%3A52+GMT%2B0000+(Greenwich+Mean+Time)&version=6.24.0&isIABGlobal=false&hosts=&consentId=c4fc8e6e-76f1-4afa-aee3-f34416a1cb69&interactionCount=2&landingPath=NotLandingPage&groups=C0008%3A1%2CC0001%3A1%2CC0002%3A1%2CC0003%3A1%2CC0004%3A1&AwaitingReconsent=false&geolocation=%3B; __cf_bm=xWooKlZM.tbXN0LPLIpOUHHBZdx4QceGGru25MZc3Lo-1644403312-0-ASVUZrKq+3vZXvslinBZ4xQPBTTR/2Vs+VDIqNNHKTzRivbEQ62h3nzQBbho0YhLehMgRR2mHKHKUmubZVoXRLj6QDIJ9fLKNdT6gQfOYHl3GmD7/SBECD8aI+njrc2mVZUL9skWOHtjdkB7A3VkscRL6eVnyJ4f1mOCun6cxZsc; gpv_url=https%3A%2F%2Fwww.currys.co.uk%2Fproducts%2Fhotpoint-class-6-si6-864-sh-ix-electric-oven-stainless-steel-10148974.html; gpv_template=product%2FproductDetails; gpv_login=logged_out; gpv_pg=PDP%3AHOTPOINT%20Class%206%20SI6%20864%20SH%20IX%20Electric%20Oven%20%20Stainless%20Steel; _ga_3VD8P50ZM5=GS1.1.1644403313.11.0.1644403313.0; _ga=GA1.1.1628863012.1642768943; _uetsid=c762721088f111ecb1bf6301d0c716bf; _uetvid=0de847907dbf11ec94bbf7476f9cb8b2; mbox=PC#f2f3da396efe4b7da14b895048562a31.37_0#1707648116|session#c61829935ef74f7c972b066ac0634f01#1644405176; smc_tpv=69; smc_spv=3; smct_last_ov=%5B%7B%22id%22%3A73429%2C%22loaded%22%3A1644403316562%2C%22open%22%3Anull%2C%22eng%22%3Anull%2C%22closed%22%3Anull%7D%2C%7B%22id%22%3A73736%2C%22loaded%22%3A1643818986542%2C%22open%22%3A1643818736237%2C%22eng%22%3Anull%2C%22closed%22%3Anull%7D%2C%7B%22id%22%3A73429%2C%22loaded%22%3A1643818526605%2C%22open%22%3Anull%2C%22eng%22%3Anull%2C%22closed%22%3Anull%7D%5D; _cs_id=902e6dba-aafa-ac15-d396-7d588e3a7a65.1642768943.12.1644403316.1644403315.1.1676932943967; _cs_s=2.0.0.1644405116628; cto_bundle=cc0SXl9uNUdobnBCZERyc2I2Q0dqdnRSZ0g5NmJiU0I4cFZ1VVZQQnNVOE1HTkIySFNBbEElMkJrNE9yS1pxaUlFQUhubjZaUTAzSmRTdkJwUXhGclcwNmhCR2hFcFF5bWo5bk9KSmFIM0pZVDFLZXkzdWVMRGtWem5xTHdKQ0V4WGtjYTFNTUp2UnJQNms0azhremg5UU9OdndoZyUzRCUzRA; _clsk=gewjyr|1644404281591|2|0|f.clarity.ms/collect; smct_session=%7B%22s%22%3A1644333257530%2C%22l%22%3A1644404845571%2C%22lt%22%3A1644404845572%2C%22t%22%3A1752%2C%22p%22%3A16%7D; QSI_CT={"GIS Call-CTA-Shown":1}',
-            'dnt':'1',
-            'pragma':'no-cache',
-            'Referer': 'https://www.currys.co.uk/appliances/floorcare/vacuum-cleaners',
-            'sec-ch-ua':'Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98',
-            'sec-ch-ua-mobile':'?0',
-            'sec-ch-ua-platform':'Windows',
-            'sec-fetch-dest':'document',
-            'sec-fetch-mode':'navigate',
-            'sec-fetch-site':'same-origin',
-            'sec-fetch-user':'?1',
-            'upgrade-insecure-requests':'1',
-            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36',
-        }
 
         #Scrape Fields
         l.add_xpath('title', '/html/head/title/text()')
@@ -309,22 +277,6 @@ class CurrysSpider(SitemapSpider):
         l.add_xpath('sku', '//span[starts-with(.,"HOOVER")]/following::span[contains(.,"AXI")]', re=r"^(?:[^\s]*\s){1}([^\s]*)")   
             #Look for MIELE in product title, Extract everything upto WS Tall Freezer
         l.add_xpath('sku', '//span[starts-with(.,"MIELE")]/following::span[contains(.,"WS Tall Freezer")]', re=r"(.*)(?=WS Tall Freezer)")
-
-            #Laptop Brand Matching between () in Box Contents
-        #l.add_xpath('sku', '//span[starts-with(.,"ALIENWARE")]/following::span[contains(.,"laptop")]//th[contains(.,"Box contents"]/following::td)', re=r"(?<=\()(.*?)(?=\))")
-        #l.add_xpath('sku', '//span[starts-with(.,"Acer")]/following::span[contains(.,"laptop")]//th[contains(.,"Box contents"]/following::td)', re=r"(?<=\()(.*?)(?=\))")
-        #l.add_xpath('sku', '//span[starts-with(.,"Dell")]/following::span[contains(.,"laptop")]//th[contains(.,"Box contents"]/following::td)', re=r"(?<=\()(.*?)(?=\))")
-        #l.add_xpath('sku', '//span[starts-with(.,"Lenovo")]/following::span[contains(.,"laptop")]//th[contains(.,"Box contents"]/following::td)', re=r"(?<=\()(.*?)(?=\))")
-        #l.add_xpath('sku', '//span[starts-with(.,"Asus")]/following::span[contains(.,"laptop")]//th[contains(.,"Box contents"]/following::td)', re=r"(?<=\()(.*?)(?=\))")
-        #l.add_xpath('sku', '//span[starts-with(.,"HP")]/following::span[contains(.,"laptop")]//th[contains(.,"Box contents"]/following::td)', re=r"(?<=\()(.*?)(?=\))")
-        #l.add_xpath('sku', '//span[starts-with(.,"Microsoft")]/following::span[contains(.,"laptop")]//th[contains(.,"Box contents"]/following::td)', re=r"(?<=\()(.*?)(?=\))")
-        #l.add_xpath('sku', '//span[starts-with(.,"Samsung")]/following::span[contains(.,"laptop")]//th[contains(.,"Box contents"]/following::td)', re=r"(?<=\()(.*?)(?=\))")
-        #l.add_xpath('sku', '//span[starts-with(.,"Avita")]/following::span[contains(.,"laptop")]//th[contains(.,"Box contents"]/following::td)', re=r"(?<=\()(.*?)(?=\))")
-        #l.add_xpath('sku', '//span[starts-with(.,"LG")]/following::span[contains(.,"laptop")]//th[contains(.,"Box contents"]/following::td)', re=r"(?<=\()(.*?)(?=\))")
-        #l.add_xpath('sku', '//span[starts-with(.,"Medion")]/following::span[contains(.,"laptop")]//th[contains(.,"Box contents"]/following::td)', re=r"(?<=\()(.*?)(?=\))")
-
-            #Look for KITCHENAID in product title, Extract the second word as the part code when the second span contains Artisan
-        l.add_xpath('sku', '//span[starts-with(.,"KITCHENAID")]/following::span[contains(.,"Artisan")]', re=r"^(?:[^\s]*\s){1}([^\s]*)")
 
             #If it has a flix media box that has rendered, can we take the MPN from there...
         l.add_xpath('sku', '//div[@class="flix-model-title"]/text()')

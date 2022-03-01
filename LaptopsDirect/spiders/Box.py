@@ -35,9 +35,11 @@ class boxspider(SitemapSpider):
         l.add_xpath('price', '//div[@class="p-price"]/p[@class="p-price-inc"]/span[@class="pq-price"]/text()')
         l.add_xpath('price', '//tr[@class="p-cashback-pay"]/td/span/text()')
         l.add_xpath('description', '//*[@id="p-middle"]/div[2]/ul')
-        l.add_xpath('stock', '//p[@class="p-stock"]/text()')
+        l.add_xpath('stock', '//p[@class="p-stock"]/text()', re=r"(.+)")
         #OOS
-        l.add_xpath('stock', '//div[@title="Request Stock Alert"]/text()')
+        l.add_xpath('stock', '//div[@title="Request Stock Alert"]/text()', re=r"(.+)")
+        
+    
 
         # Administration Fields
         l.add_value('url', response.url)

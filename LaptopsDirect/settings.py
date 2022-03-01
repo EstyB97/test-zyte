@@ -80,12 +80,6 @@ CONCURRENT_REQUESTS = 32
 #    'LaptopsDirect.middlewares.LaptopsdirectSpiderMiddleware': 543,
 #}
 
-# Enable or disable spider middlewares - Brandon Added
-#See https://doc.scrapy.org/en/latest/topics/spider-middleware.html
-#SPIDER_MIDDLEWARES = {
-    #'LaptopsDirect.middlewares.httperror.HttpErrorMiddleware' : 420
-#}
-
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
